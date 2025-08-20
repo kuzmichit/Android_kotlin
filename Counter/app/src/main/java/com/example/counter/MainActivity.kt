@@ -1,37 +1,36 @@
 package com.example.counter
 
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.counter.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
 
-    var counter = 0
+    private var counter = 0
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        // Inflate the layout using the binding class and get an instance
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        // Set the content view to the root of the binding object
+        setContentView(binding.root)
 
-        val plus = findViewById<ImageView>(R.id.plus)
-        val minus = findViewById<ImageView>(R.id.minus)
 
-        plus.setOnClickListener {
+        binding.plus.setOnClickListener {
             increaseCounter()
         }
-        minus.setOnClickListener {
-           decreaseCounter()
+
+        binding.minus.setOnClickListener {
+            decreaseCounter()
         }
+
+        binding.buttonReset.setOnClickListener { // Assuming you have a resetButton with this ID
+            resetCounter()
+        }
+
+        updateCounterText() // Initial update
     }
 
     private fun decreaseCounter() {
@@ -45,8 +44,13 @@ class MainActivity : AppCompatActivity() {
         updateCounterText()
     }
 
+    private fun resetCounter() {
+        counter = 0
+        updateCounterText()
+    }
+
     private fun updateCounterText() {
-        val counterTextView = findViewById<TextView>(R.id.counterText)
-        counterTextView.text = counter.toString()
+        // Access TextView directly via binding
+        binding.counterText.text = counter.toString() // Assuming your TextView has id 'counterText'
     }
 }

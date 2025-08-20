@@ -11,45 +11,66 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="48dp"
         android:padding="12dp"
-        android:text="Hello World!"
+        android:text="Counter"
+        android:textSize="54sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/counterText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:padding="12dp"
         android:text="0"
         android:textSize="64sp"
-        app:layout_constraintBottom_toTopOf="@+id/plus"
+        android:textColor="#0553EE"
+        app:layout_constraintBottom_toTopOf="@+id/buttonReset"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.67" />
+        app:layout_constraintVertical_bias="0.608" />
+
+    <TextView
+        android:id="@+id/buttonReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_textview"
+        android:text="Azzerare"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@id/plus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/counterText" />
 
     <ImageView
         android:id="@+id/plus"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="@drawable/border_textview"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/minus"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.758"
+        app:layout_constraintTop_toBottomOf="@id/buttonReset"
         app:srcCompat="@drawable/add_2_24px" />
 
     <ImageView
         android:id="@+id/minus"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="@drawable/border_textview"
         app:layout_constraintBottom_toBottomOf="@+id/plus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/plus"
         app:layout_constraintTop_toTopOf="@+id/plus"
         app:srcCompat="@drawable/remove_24px" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
