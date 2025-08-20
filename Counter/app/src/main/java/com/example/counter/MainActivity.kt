@@ -3,6 +3,7 @@ package com.example.counter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.counter.databinding.ActivityMainBinding
+import androidx.core.content.edit
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         // Set the content view to the root of the binding object
         setContentView(binding.root)
+
+        val sharedPreferences = getSharedPreferences("my_preferences", MODE_PRIVATE)
+        sharedPreferences.edit {
+            putInt("counter", counter)
+            putString("resetText", "Azzerar 111")
+        }
+        counter = sharedPreferences.getInt("counter", 0)
+        binding.buttonReset.text = sharedPreferences.getString("resetText", "Azzerare")
 
 
         binding.plus.setOnClickListener {
