@@ -20,12 +20,8 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("my_preferences", MODE_PRIVATE)
         sharedPreferences.edit {
-            putInt("counter", counter)
-            putString("resetText", "Azzerar 111")
         }
         counter = sharedPreferences.getInt("counter", 0)
-        binding.buttonReset.text = sharedPreferences.getString("resetText", "Azzerare")
-
 
         binding.plus.setOnClickListener {
             increaseCounter()
@@ -41,6 +37,22 @@ class MainActivity : AppCompatActivity() {
 
         updateCounterText() // Initial update
     }
+
+    override fun onPause() {
+        super.onPause()
+        val sharedPreferences = getSharedPreferences("my_preferences", MODE_PRIVATE)
+        sharedPreferences.edit {
+            putInt("counter", counter)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val sharedPreferences = getSharedPreferences("my_preferences", MODE_PRIVATE)
+        counter = sharedPreferences.getInt("counter", 0)
+        updateCounterText()
+    }
+
 
     private fun decreaseCounter() {
         counter--
@@ -60,6 +72,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateCounterText() {
         // Access TextView directly via binding
-        binding.counterText.text = counter.toString() // Assuming your TextView has id 'counterText'
+        binding.countText.text = counter.toString() // Assuming your TextView has id 'counterText'
     }
 }
