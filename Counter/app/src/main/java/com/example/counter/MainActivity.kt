@@ -1,6 +1,7 @@
 package com.example.counter
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.counter.databinding.ActivityMainBinding
 import androidx.core.content.edit
@@ -8,7 +9,7 @@ import androidx.core.content.edit
 
 class MainActivity : AppCompatActivity() {
 
-    private var counter = 0
+    private var count: Int = 0
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,9 +20,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val sharedPreferences = getSharedPreferences("my_preferences", MODE_PRIVATE)
+
         sharedPreferences.edit {
+            putInt("counter", count)
         }
-        counter = sharedPreferences.getInt("counter", 0)
 
         binding.plus.setOnClickListener {
             increaseCounter()
@@ -36,42 +38,66 @@ class MainActivity : AppCompatActivity() {
         }
 
         updateCounterText() // Initial update
+
+        Log.d("TAG","onCreate: ")
     }
 
     override fun onPause() {
         super.onPause()
+
         val sharedPreferences = getSharedPreferences("my_preferences", MODE_PRIVATE)
         sharedPreferences.edit {
-            putInt("counter", counter)
+            putInt("counter", count)
         }
+        Log.d("TAG","onPause: ")
     }
 
     override fun onResume() {
         super.onResume()
         val sharedPreferences = getSharedPreferences("my_preferences", MODE_PRIVATE)
-        counter = sharedPreferences.getInt("counter", 0)
+        count = sharedPreferences.getInt("counter", 0)
         updateCounterText()
+        Log.d("TAG","onResume: ")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (isFinishing) { // vero solo se l’activity sta per essere distrutta definitivamente
+            count = 0
+            val sharedPreferences = getSharedPreferences("my_preferences", MODE_PRIVATE)
+            sharedPreferences.edit {
+                putInt("counter", count)
+                apply()
+            }
+        }
+            Log.d("TAG","onStop: $isFinishing")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Log.d("TAG", "onDestroy:$count")
     }
 
 
     private fun decreaseCounter() {
-        counter--
-        if (counter < 0) counter = 0
+        count--
+        if (count < 0) count = 0
         updateCounterText()
     }
 
     private fun increaseCounter() {
-        counter++
+        count++
         updateCounterText()
     }
 
     private fun resetCounter() {
-        counter = 0
+        count = 0
         updateCounterText()
     }
 
     private fun updateCounterText() {
         // Access TextView directly via binding
-        binding.countText.text = counter.toString() // Assuming your TextView has id 'counterText'
+        binding.countText.text = count.toString() // Assuming your TextView has id 'counterText'
     }
 }
